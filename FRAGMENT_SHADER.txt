@@ -1,0 +1,28 @@
+//
+// Simple passthrough fragment shader
+//
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+
+uniform float time;
+uniform float scrolly;
+uniform float scrollx;
+uniform float amp;
+uniform float freq;
+uniform float speed;
+
+void main()
+{
+	vec2 p = v_vTexcoord;
+	
+	p.x += scrollx;
+	p.y += scrolly;
+
+	float m = p.y * freq;
+	
+	float horWave = amp * sin( time * speed - m );
+	
+	vec4 distort = v_vColour * texture2D( gm_BaseTexture, vec2( p.x + horWave , p.y ) );
+	
+    gl_FragColor = distort;
+}
